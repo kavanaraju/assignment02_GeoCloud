@@ -161,14 +161,14 @@ There are several datasets that are prescribed for you to use in this part. Belo
 
 1.  Which **eight** bus stop have the largest population within 800 meters? As a rough estimation, consider any block group that intersects the buffer as being part of the 800 meter buffer.
 
-   i. Lombard St & 18th St (57936)
-   ii. Rittenhouse Sq & 18th St (57571)
-   iii. Snyder Av & 9th St	(57412)
-   iv. 19th St & Lombard St (57019)
-   v. Lombard St & 19th St	(57019)
-   vi. Locust St & 16th St	(56309)
-   vii. 16th St & Locust St (56309)
-   viii. South St & 19th St (55789)
+   i. Lombard St & 18th St (57936) 
+   ii. Rittenhouse Sq & 18th St (57571) 
+   iii. Snyder Av & 9th St	(57412) 
+   iv. 19th St & Lombard St (57019) 
+   v. Lombard St & 19th St	(57019) 
+   vi. Locust St & 16th St	(56309) 
+   vii. 16th St & Locust St (56309) 
+   viii. South St & 19th St (55789) 
 
 3.  Which **eight** bus stops have the smallest population above 500 people _inside of Philadelphia_ within 800 meters of the stop (Philadelphia county block groups have a geoid prefix of `42101` -- that's `42` for the state of PA, and `101` for Philadelphia county)?
 
