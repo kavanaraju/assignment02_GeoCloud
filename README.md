@@ -161,7 +161,16 @@ There are several datasets that are prescribed for you to use in this part. Belo
 
 1.  Which **eight** bus stop have the largest population within 800 meters? As a rough estimation, consider any block group that intersects the buffer as being part of the 800 meter buffer.
 
-2.  Which **eight** bus stops have the smallest population above 500 people _inside of Philadelphia_ within 800 meters of the stop (Philadelphia county block groups have a geoid prefix of `42101` -- that's `42` for the state of PA, and `101` for Philadelphia county)?
+   i. Lombard St & 18th St (57936)
+   ii. Rittenhouse Sq & 18th St (57571)
+   iii. Snyder Av & 9th St	(57412)
+   iv. 19th St & Lombard St (57019)
+   v. Lombard St & 19th St	(57019)
+   vi. Locust St & 16th St	(56309)
+   vii. 16th St & Locust St (56309)
+   viii. South St & 19th St (55789)
+
+3.  Which **eight** bus stops have the smallest population above 500 people _inside of Philadelphia_ within 800 meters of the stop (Philadelphia county block groups have a geoid prefix of `42101` -- that's `42` for the state of PA, and `101` for Philadelphia county)?
 
     **The queries to #1 & #2 should generate results with a single row, with the following structure:**
 
@@ -173,7 +182,7 @@ There are several datasets that are prescribed for you to use in this part. Belo
     )
     ```
 
-3.  Using the Philadelphia Water Department Stormwater Billing Parcels dataset, pair each parcel with its closest bus stop. The final result should give the parcel address, bus stop name, and distance apart in meters, rounded to two decimals. Order by distance (largest on top).
+4.  Using the Philadelphia Water Department Stormwater Billing Parcels dataset, pair each parcel with its closest bus stop. The final result should give the parcel address, bus stop name, and distance apart in meters, rounded to two decimals. Order by distance (largest on top).
 
     _Your query should run in under two minutes._
 
@@ -188,7 +197,7 @@ There are several datasets that are prescribed for you to use in this part. Belo
     )
     ```
 
-4.  Using the `bus_shapes`, `bus_routes`, and `bus_trips` tables from GTFS bus feed, find the **two** routes with the longest trips.
+5.  Using the `bus_shapes`, `bus_routes`, and `bus_trips` tables from GTFS bus feed, find the **two** routes with the longest trips.
 
     _Your query should run in under two minutes._
 
@@ -211,7 +220,7 @@ There are several datasets that are prescribed for you to use in this part. Belo
     )
     ```
 
-5.  Rate neighborhoods by their bus stop accessibility for wheelchairs. Use OpenDataPhilly's neighborhood dataset along with an appropriate dataset from the Septa GTFS bus feed. Use the [GTFS documentation](https://gtfs.org/reference/static/) for help. Use some creativity in the metric you devise in rating neighborhoods.
+6.  Rate neighborhoods by their bus stop accessibility for wheelchairs. Use OpenDataPhilly's neighborhood dataset along with an appropriate dataset from the Septa GTFS bus feed. Use the [GTFS documentation](https://gtfs.org/reference/static/) for help. Use some creativity in the metric you devise in rating neighborhoods.
 
     _NOTE: There is no automated test for this question, as there's no one right answer. With urban data analysis, this is frequently the case._
 
@@ -219,9 +228,9 @@ There are several datasets that are prescribed for you to use in this part. Belo
 
     **Description:**
 
-6.  What are the _top five_ neighborhoods according to your accessibility metric?
+7.  What are the _top five_ neighborhoods according to your accessibility metric?
 
-7.  What are the _bottom five_ neighborhoods according to your accessibility metric?
+8.  What are the _bottom five_ neighborhoods according to your accessibility metric?
 
     **Both #6 and #7 should have the structure:**
     ```sql
@@ -233,7 +242,7 @@ There are several datasets that are prescribed for you to use in this part. Belo
     )
     ```
 
-8.  With a query, find out how many census block groups Penn's main campus fully contains. Discuss which dataset you chose for defining Penn's campus.
+9.  With a query, find out how many census block groups Penn's main campus fully contains. Discuss which dataset you chose for defining Penn's campus.
 
     **Structure (should be a single value):**
     ```sql
@@ -244,7 +253,7 @@ There are several datasets that are prescribed for you to use in this part. Belo
 
     **Discussion:**
 
-9. With a query involving PWD parcels and census block groups, find the `geo_id` of the block group that contains Meyerson Hall. `ST_MakePoint()` and functions like that are not allowed.
+10. With a query involving PWD parcels and census block groups, find the `geo_id` of the block group that contains Meyerson Hall. `ST_MakePoint()` and functions like that are not allowed.
 
     **Structure (should be a single value):**
     ```sql
@@ -253,7 +262,7 @@ There are several datasets that are prescribed for you to use in this part. Belo
     )
     ```
 
-10. You're tasked with giving more contextual information to rail stops to fill the `stop_desc` field in a GTFS feed. Using any of the data sets above, PostGIS functions (e.g., `ST_Distance`, `ST_Azimuth`, etc.), and PostgreSQL string functions, build a description (alias as `stop_desc`) for each stop. Feel free to supplement with other datasets (must provide link to data used so it's reproducible), and other methods of describing the relationships. SQL's `CASE` statements may be helpful for some operations.
+11. You're tasked with giving more contextual information to rail stops to fill the `stop_desc` field in a GTFS feed. Using any of the data sets above, PostGIS functions (e.g., `ST_Distance`, `ST_Azimuth`, etc.), and PostgreSQL string functions, build a description (alias as `stop_desc`) for each stop. Feel free to supplement with other datasets (must provide link to data used so it's reproducible), and other methods of describing the relationships. SQL's `CASE` statements may be helpful for some operations.
 
     **Structure:**
     ```sql
