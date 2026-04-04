@@ -1,37 +1,37 @@
 /*
   Which eight bus stops have the smallest population above 500 people
   inside of Philadelphia within 800 meters of the stop (Philadelphia
-  county block groups have a geoid prefix of 42101 -- that's 42 for 
+  county block groups have a geoid prefix of 42101 -- that's 42 for
   the state of PA, and 101 for Philadelphia county)?
 */
 
-with
+WITH
 
-septa_bus_stop_blockgroups as (
-    select
+septa_bus_stop_blockgroups AS (
+    SELECT
         stops.stop_id,
-        '1500000US' || bg.geoid as geoid
-    from septa.bus_stops as stops
-    inner join census.blockgroups_2020 as bg
-        on st_dwithin(stops.geog, bg.geog, 800)
-    where bg.geoid like '42101%'
+        '1500000US' || bg.geoid AS geoid
+    FROM septa.bus_stops AS stops
+    INNER JOIN census.blockgroups_2020 AS bg
+        ON st_dwithin(stops.geog, bg.geog, 800)
+    WHERE bg.geoid LIKE '42101%'
 ),
 
-septa_bus_stop_surrounding_population as (
-    select
+septa_bus_stop_surrounding_population AS (
+    SELECT
         stops.stop_id,
-        sum(pop.total) as estimated_pop_800m
-    from septa_bus_stop_blockgroups as stops
-    inner join census.population_2020 as pop using (geoid)
-    group by stops.stop_id
+        sum(pop.total) AS estimated_pop_800m
+    FROM septa_bus_stop_blockgroups AS stops
+    INNER JOIN census.population_2020 AS pop USING (geoid)
+    GROUP BY stops.stop_id
 )
 
-select
+SELECT
     stops.stop_id,
     stops.stop_name,
     pop.estimated_pop_800m
-from septa_bus_stop_surrounding_population as pop
-inner join septa.bus_stops as stops using (stop_id)
-where pop.estimated_pop_800m > 500
-order by pop.estimated_pop_800m asc, stops.stop_id asc
-limit 8
+FROM septa_bus_stop_surrounding_population AS pop
+INNER JOIN septa.bus_stops AS stops USING (stop_id)
+WHERE pop.estimated_pop_800m > 500
+ORDER BY pop.estimated_pop_800m ASC, stops.stop_id ASC
+LIMIT 8

@@ -1,22 +1,22 @@
 /*
-Rate neighborhoods by their bus stop accessibility for wheelchairs. 
-Use OpenDataPhilly's neighborhood dataset along with an appropriate 
-dataset from the Septa GTFS bus feed. Use the GTFS documentation for 
+Rate neighborhoods by their bus stop accessibility for wheelchairs.
+Use OpenDataPhilly's neighborhood dataset along with an appropriate
+dataset from the Septa GTFS bus feed. Use the GTFS documentation for
 help. Use some creativity in the metric you devise in rating neighborhoods.
 */
 
-SET search_path TO public, septa, census, phl;
-select
-    neighborhoods.listname as neighborhood_name,
+SELECT
+    neighborhoods.listname AS neighborhood_name,
     round(
-        count(*) filter (where stops.wheelchair_boarding = 1)::numeric
+        count(*) FILTER (WHERE stops.wheelchair_boarding = 1)::numeric
         / nullif(count(*), 0) * 100,
         1
-    ) as accessibility_metric,
-    count(*) filter (where stops.wheelchair_boarding = 1) as num_bus_stops_accessible,
-    count(*) filter (where stops.wheelchair_boarding = 2) as num_bus_stops_inaccessible
-from phl.neighborhoods as neighborhoods
-inner join septa.bus_stops as stops
-    on st_within(stops.geog::geometry, neighborhoods.geog::geometry)
-group by neighborhoods.listname
-order by accessibility_metric desc
+    ) AS accessibility_metric,
+    count(*) FILTER (WHERE stops.wheelchair_boarding = 1) AS num_bus_stops_accessible,
+    count(*) FILTER (WHERE stops.wheelchair_boarding = 2) AS num_bus_stops_inaccessible
+FROM phl.neighborhoods AS neighborhoods
+INNER JOIN septa.bus_stops AS stops
+    ON st_within(stops.geog::geometry, neighborhoods.geog::geometry)
+GROUP BY neighborhoods.listname
+ORDER BY accessibility_metric DESC
+LIMIT 5

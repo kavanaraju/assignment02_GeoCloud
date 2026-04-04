@@ -1,13 +1,13 @@
 /*
    Using the Philadelphia Water Department Stormwater Billing Parcels
-   dataset, pair each parcel with its closest bus stop. The final 
-   result should give the parcel address, bus stop name, and 
-   distance apart in meters, rounded to two decimals. Order by 
+   dataset, pair each parcel with its closest bus stop. The final
+   result should give the parcel address, bus stop name, and
+   distance apart in meters, rounded to two decimals. Order by
    distance (largest on top).
 */
 
-select
-    parcels.address as parcel_address,
+SELECT
+    parcels.address AS parcel_address,
     stops.stop_name,
     round(
         st_distance(
@@ -15,14 +15,14 @@ select
             stops.geog
         )::numeric,
         2
-    ) as distance
-from phl.pwd_parcels as parcels
-cross join lateral (
-    select
+    ) AS distance
+FROM phl.pwd_parcels AS parcels
+CROSS JOIN LATERAL (
+    SELECT
         stops.stop_name,
         stops.geog
-    from septa.bus_stops as stops
-    order by parcels.geog <-> stops.geog
-    limit 1
-) as stops
-order by distance desc
+    FROM septa.bus_stops AS stops
+    ORDER BY parcels.geog <-> stops.geog
+    LIMIT 1
+) AS stops
+ORDER BY distance DESC
