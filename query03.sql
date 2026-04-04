@@ -6,14 +6,23 @@
    distance (largest on top).
 */
 
-Your query should run in under two minutes.
-
-_HINT: This is a nearest neighbor problem.
-
-Structure:
-
-(
-    parcel_address text,  -- The address of the parcel
-    stop_name text,  -- The name of the bus stop
-    distance numeric  -- The distance apart in meters, rounded to two decimals
-)
+select
+    parcels.address as parcel_address,
+    stops.stop_name,
+    round(
+        st_distance(
+            parcels.geog,
+            stops.geog
+        )::numeric,
+        2
+    ) as distance
+from phl.pwd_parcels as parcels
+cross join lateral (
+    select
+        stops.stop_name,
+        stops.geog
+    from septa.bus_stops as stops
+    order by parcels.geog <-> stops.geog
+    limit 1
+) as stops
+order by distance desc

@@ -8,3 +8,65 @@ for each stop. Feel free to supplement with other datasets
 methods of describing the relationships. SQL's CASE statements may 
 be helpful for some operations.
 */
+
+select
+    stops.stop_id,
+    stops.stop_name,
+    concat(
+        round(
+            st_distance(
+                st_makepoint(stops.stop_lon, stops.stop_lat)::geography,
+                neighborhoods.geog
+            )::numeric
+        ),
+        ' meters ',
+        case
+            when degrees(st_azimuth(
+                st_setsrid(st_makepoint(stops.stop_lon, stops.stop_lat), 4326),
+                st_centroid(st_setsrid(neighborhoods.geog::geometry, 4326))
+            )) < 22.5 then 'N'
+            when degrees(st_azimuth(
+                st_setsrid(st_makepoint(stops.stop_lon, stops.stop_lat), 4326),
+                st_centroid(st_setsrid(neighborhoods.geog::geometry, 4326))
+            )) < 67.5 then 'NE'
+            when degrees(st_azimuth(
+                st_setsrid(st_makepoint(stops.stop_lon, stops.stop_lat), 4326),
+                st_centroid(st_setsrid(neighborhoods.geog::geometry, 4326))
+            )) < 112.5 then 'E'
+            when degrees(st_azimuth(
+                st_setsrid(st_makepoint(stops.stop_lon, stops.stop_lat), 4326),
+                st_centroid(st_setsrid(neighborhoods.geog::geometry, 4326))
+            )) < 157.5 then 'SE'
+            when degrees(st_azimuth(
+                st_setsrid(st_makepoint(stops.stop_lon, stops.stop_lat), 4326),
+                st_centroid(st_setsrid(neighborhoods.geog::geometry, 4326))
+            )) < 202.5 then 'S'
+            when degrees(st_azimuth(
+                st_setsrid(st_makepoint(stops.stop_lon, stops.stop_lat), 4326),
+                st_centroid(st_setsrid(neighborhoods.geog::geometry, 4326))
+            )) < 247.5 then 'SW'
+            when degrees(st_azimuth(
+                st_setsrid(st_makepoint(stops.stop_lon, stops.stop_lat), 4326),
+                st_centroid(st_setsrid(neighborhoods.geog::geometry, 4326))
+            )) < 292.5 then 'W'
+            when degrees(st_azimuth(
+                st_setsrid(st_makepoint(stops.stop_lon, stops.stop_lat), 4326),
+                st_centroid(st_setsrid(neighborhoods.geog::geometry, 4326))
+            )) < 337.5 then 'NW'
+            else 'N'
+        end,
+        ' of ',
+        neighborhoods.listname,
+        ' neighborhood'
+    ) as stop_desc,
+    stops.stop_lon,
+    stops.stop_lat
+from septa.rail_stops as stops
+cross join lateral (
+    select
+        listname,
+        geog
+    from phl.neighborhoods
+    order by st_makepoint(stops.stop_lon, stops.stop_lat)::geography <-> geog
+    limit 1
+) as neighborhoods

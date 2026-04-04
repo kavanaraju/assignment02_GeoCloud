@@ -3,3 +3,12 @@ With a query involving PWD parcels and census block groups,
 find the geo_id of the block group that contains Meyerson Hall. 
 ST_MakePoint() and functions like that are not allowed.
 */
+
+SET search_path TO public, septa, census, phl;
+
+select
+    bg.geoid as geo_id
+from census.blockgroups_2020 as bg
+inner join phl.pwd_parcels as parcels
+    on st_contains(bg.geog::geometry, parcels.geog::geometry)
+where parcels.address = '220-30 S 34TH ST'
