@@ -7,7 +7,8 @@ defining Penn's campus.
 WITH penn_campus AS (
     SELECT st_convexhull(st_union(geog::geometry)) AS geom
     FROM phl.pwd_parcels
-    WHERE owner1 ILIKE '%univ%penn%'
+    WHERE
+        owner1 ILIKE '%univ%penn%'
         OR owner1 ILIKE '%univ of penn%'
 )
 
